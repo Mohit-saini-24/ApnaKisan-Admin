@@ -1,0 +1,22 @@
+<% layout('boilerplate') %>
+<div class="row light-green lighten-2">
+    <div class="col s12">
+        <h5>Please Login</h5>
+    </div>
+    <div class="col s6">
+        <form action="/login" method="post">
+            <div class="input-field">
+                <input type="text" name="loginid">
+                <label for="loginid">Enter Login ID</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" id="password">
+                <label for="password">Enter Password</label>
+            </div>
+            <div class="input-field">
+                <input type="submit" value="Login">
+            </div>
+            <a href="/register" class="btn blue">Register</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "metadata": {
+      "$user_id": {
+        ".read": "true",
+        ".write": "true"
+      }
+    }
+  }
+}
