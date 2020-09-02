@@ -1,10 +1,16 @@
-<% layout('../boilerplate') %> 
-<div class="row">
-    <div class="col">
+<% layout('../boilerplate') %>
+<div class="row container">
+    <div class="col s12">
         <form action="/register" method="post">
-            <input type="text" name="loginid">
-            <input type="password" name="password">
-        <input type="submit" value="Register">
+            <div class="input-field">
+                <input type="text" name="loginid">
+                <label for="loginid">Enter Email</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password">
+                <label for="password">Enter Password</label>
+            </div>
+            <input type="submit" value="Register" class="btn blue">
         </form>
     </div>
 </div>

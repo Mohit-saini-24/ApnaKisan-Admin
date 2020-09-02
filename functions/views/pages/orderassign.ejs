@@ -1,0 +1,89 @@
+<% layout('../boilerplate') %>
+<% stylesheet('/css/style.css') -%>
+<% include ../partials/header %>
+<h5>order asssign</h5>
+
+<div class="col s12">
+    <div class="row">
+        <div class="col s12">
+            <h6 style="font-weight: 900;">Order Key : <%= order.data().orderkey%></h6>
+        </div>
+        <div class="col s12">
+            <p style="font-weight: 900;">Order Time : <%= order.data().orderTime.toDate() %> </p>
+        </div>
+        <div class="col s12">
+            <p style="font-weight: 900;">Order Total : <%= order.data().amountToPay %> </p>
+        </div>
+        <div class="col s12">
+                <p style="font-weight: 900;">Phone Number : <%= order.data().phoneNumber %> </p>
+            </div>
+        <% if (order.data().orderStatus) { %>
+        <div class="col s12">
+            <p style="font-weight: 900;">Order Status : <%= order.data().orderStatus %> </p>
+        </div>
+        <div class="col s12">
+            <p style="font-weight: 900;">Delivery Address : <%= order.data().deliveryAddress %> </p>
+        </div>
+        <div class="col s12">
+            <p style="font-weight: 900;">Delivery Person : <%= order.data().deliveryPerson %> </p>
+        </div>
+        <div class="col s12">
+            <p style="font-weight: 900;">Order Place Time: <%= order.data().orderPlaceTime.toDate() %> </p>
+        </div>
+        <% }else{ %>
+        <div class="col s12">
+            <p style="font-weight: 900;">Order Status : Order not confirmed</p>
+        </div>
+        <% } %>
+        <div class="col s12">
+            <p style="font-weight: 900;">Order Items : </p>
+        </div>
+        <% order.data().orderItems.forEach(item => { %>
+        <div class="col s5 grey lighten -4" style="margin: 5px;">
+            <p>Product Name : </p>
+            <p style="font-weight: 600;"><%= item.data.productNameHindi%></p>
+            <p>Qty : <%= item.data.productQty%></p>
+            <p>Varient : <%= item.data.varientName%></p>
+        </div>
+        <% }) %>
+        <div class="col s8">
+            <button class="btn green" onclick="openDeliveryForm()">Set Delivery Details</button>
+        </div>
+        <div class="col s4">
+            <a href="/" class="btn blue">Back</a>
+        </div>
+    </div>
+    <form action="/order/<%= order.id%>" method="post" id="delivery_form" style="display: none;">
+        <div class="row">
+            <div class="col s12 input-field">
+                <input type="text" name="delivery_address">
+                <label for="delivery_adderss">Enter Address for delivery</label>
+            </div>
+            <div class="col s12 input-field">
+                <input type="text" name="delivery_person">
+                <label for="delivery_person">Enter person name to assign delivery</label>
+            </div>
+            <div class="col s12 input-field">
+                <select name="order_status">
+                    <option value="out_for_delivery" selected>Out For Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="returned">Returned</option>
+                    <option value="not_delivered">Not Delivered</option>
+                </select>
+                <label for="order_status">Set Order Status</label>
+            </div>
+            <div class="col s6">
+                <input type="submit" value="Confirm" class="btn blue">
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+    function openDeliveryForm() {
+        document.getElementById('delivery_form').style.display = "";
+    }
+</script>

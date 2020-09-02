@@ -1,0 +1,39 @@
+<% layout('../boilerplate') %>
+<% stylesheet('/css/style.css') -%>
+<% include ../partials/header %>
+<h5><%= category %></h5>
+<div class="row">
+    <% categoryProducts.forEach(element => { %>
+    <div class="col s6" style="padding: 10px;">
+        <div
+            style="border-width:2px;border-style:solid;border-color: rgb(196, 190, 190);border-radius: 20px;height: 300px;">
+            <div class="row">
+                <div class="col s12">
+                    <p class="center-align"><a href="/product/<%= element.id %>" class="btn blue">View</a></p>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <p style="text-align: center;margin: 0;"><%= element.data().productNameHindi %></p>
+                </div>
+                <div class="col s12">
+                    <p style="text-align: center;margin: 0;"><%= element.data().company %></p>
+                </div>
+                <% element.data().varients.forEach(varient => { %>
+                <div class="col s6">
+                    <p style="text-align: center;margin: 0;padding: 0;"><%= varient.varientName %></p>
+                    <br>
+                    <p style="text-align: center;margin: 0;padding: 0;"><%= varient.varientQty %></p>
+                    <br>
+                    <p style="text-align: center;margin: 0; padding: 0;"><%= varient.discountPrice %></p>
+                    <br>
+                    <p style="text-align: center;margin: 0;padding: 0;"><%= varient.priceOriginal %></p>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+    <% }) %>
+
+</div>

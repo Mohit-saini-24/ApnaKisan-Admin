@@ -1,5 +1,91 @@
-<% layout('../boilerplate') %> 
-<h5>orders here</h5>
-<div class="col s12" id="orders_row">
-      
+<% layout('../boilerplate') %>
+<% stylesheet('/css/style.css') -%>
+<% include ../partials/header %>
+<div class="row">
+  <h5 class="center-align">Welcome Admin</h5>
 </div>
+<div class="row">
+  <div class="col s5 light-green lighten-4 orders" style="margin: 10px; padding: 10px;">
+    <h6 class="center-align">View <br> Orders</h6>
+    <button class="btn-small green" onclick="viewOrders()">Show</button>
+  </div>
+  <div class="col s5 light-green lighten-4 orders" style="margin: 10px;padding: 10px;">
+    <h6 class="center-align">Update <br> Products</h6>
+    <a href="/products" class="btn blue">Update</a>
+  </div>
+  <div class="col s5 light-green lighten-4 orders" style="margin: 10px;">
+    <h6 class="center-align">Cancelled <br> Orders</h6>
+  </div>
+  <div class="col s5 light-green lighten-4 orders" style="margin: 10px;">
+    <h6 class="center-align">Delivered <br> Orders</h6>
+  </div>
+</div>
+
+<div class="row" id="orders_row" style="display: none;">
+  <div class="col s12">
+    <div class="row">
+      <div class="col s6">
+        <h5>Orders </h5>
+      </div>
+      <div class="col s6">
+        <input type="date" name="ondate" id="ondate" oninput="showDateProducts(event)">
+
+      </div>
+    </div>
+
+  </div>
+  <% orders.docs.forEach(order => { %>
+  <div style="display: none;"
+    class="col s12 displayDate <%= order.data().orderTime.toDate().getFullYear()+'-'+order.data().orderTime.toDate().getMonth()+'-'+order.data().orderTime.toDate().getDate()%>">
+    <div class="row">
+      <div class="col s12">
+        <h6 style="font-weight: 900;">Order Key : <%= order.data().orderkey%></h6>
+      </div>
+      <div class="col s12">
+        <p style="font-weight: 900;">Order Items : </p>
+      </div>
+      <% order.data().orderItems.forEach(item => { %>
+      <div class="col s5 grey lighten -4" style="margin: 5px;">
+        <p>Product Name : </p>
+        <p style="font-weight: 600;"><%= item.data.productNameHindi%></p>
+        <p>Qty : <%= item.data.productQty%></p>
+        <p>Varient : <%= item.data.varientName%></p>
+      </div>
+      <% }) %>
+      <div class="col s12">
+        <a href="/order/<%= order.id%>" class="btn green">Assign Order</a>
+      </div>
+    </div>
+
+  </div>
+  <% }) %>
+</div>
+
+<script>
+  function viewOrders() {
+    document.getElementById('orders_row').style.display = "";
+  }
+  function showDateProducts(e) {
+    // alert('invoked')
+    console.log(e.target.value);
+    var date = e.target.value;
+    date = date.split('-');
+    date[1] = date[1]-1;
+    console.log(date.join('-'))
+    date = date.join('-');
+    var orders =document.getElementsByClassName('displayDate');
+    console.log(typeof orders)
+    for (const iterator of orders) {
+      if(iterator.classList.contains(date)){
+        iterator.style.display = ""
+      }else{
+        iterator.style.display = "none"
+      }
+    }
+    // orders.forEach(order => {
+    //   order.style.display = "";
+    // })
+
+
+  }
+</script>
