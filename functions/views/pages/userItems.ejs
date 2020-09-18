@@ -1,0 +1,27 @@
+<% layout('../boilerplate') %>
+<% include ../partials/header %>
+
+<div class="row">
+    <% if (items.docs.length) { %>
+    <% items.docs.forEach(item => { %>
+    <div class="col s12">
+        <div class="row">
+            <div class="col s4">
+                <h6><%= item.data().orderkey %></h6>
+            </div>
+            <div class="col s8">
+                <h6><%= item.data().orderTime.toDate() %></h6>
+            </div>
+        </div>
+        <div class="row">
+            <% item.data().orderItems.forEach(order => { %>
+             <div class="col s12">
+                 <h5><%= order %> </h5>
+             </div>
+            <% }) %>
+        </div>
+    </div>
+    <% }); %>
+    <% } %>
+
+</div>

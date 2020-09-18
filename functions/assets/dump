@@ -1,0 +1,7 @@
+<% users.docs.forEach(user => { %>
+                        <tr>
+                            <td><%= user.data().phoneNumber %></td>
+                            <td><a href="/users/orders/<%= user.id %>">View Orders</a></td>
+                            <td><a href="/users/cart/<%= user.id %>">View Cart</a></td>
+                        </tr>
+                        <% }) %>

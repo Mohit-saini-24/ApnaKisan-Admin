@@ -50,7 +50,7 @@
             <button class="btn green" onclick="openDeliveryForm()">Set Delivery Details</button>
         </div>
         <div class="col s4">
-            <a href="/" class="btn blue">Back</a>
+            <a href="javascript:history.back()" class="btn blue">Back</a>
         </div>
     </div>
     <form action="/order/<%= order.id%>" method="post" id="delivery_form" style="display: none;">

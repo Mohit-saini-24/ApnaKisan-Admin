@@ -1,0 +1,116 @@
+<% layout('../boilerplate') %>
+<% stylesheet('/css/style.css') -%>
+<% include ../partials/header %>
+
+
+<div class="row">
+    <div class="col s12"><a href="javascript:history.back()" class="btn blue">Back</a></div>
+    <br>
+    <br>
+    <hr>
+    <div class="col s12">Name : <%= product.data().productNameHindi %></div>
+    <div class="col s12">Company : <%= product.data().company %></div>
+    <div class="col s12">Category : <%= product.data().category %></div>
+    <div class="col s12">Sold : <%= product.data().sold %></div>
+    <div class="col s12">Hindi Name : <%= product.data().productNameHindi %></div>
+    <div class="col s12">Description : <%= product.data().productDescription %></div>
+    <div class="col s12">
+        <h5>Varients</h5>
+    </div>
+    <% product.data().varients.forEach(varient => { %>
+    <div class="col s12">
+        <div class="row">
+            <div class="col s12">
+                Name : <%= varient.varientName %>
+            </div>
+            <div class="col s12">
+                Quantity : <%= varient.varientQty %>
+            </div>
+            <div class="col s12">
+                Discount Price : <%= varient.discountPrice %>
+            </div>
+            <div class="col s12">
+                Original Price : <%= varient.priceOriginal %>
+            </div>
+            <div class="col s12">
+                <button class="btn green" onclick="varientFormShow(event)" 
+                id="<%= product.id+'_'+varient.varientName+'_'+varient.varientQty+'_'+varient.discountPrice+'_'+varient.priceOriginal%>">
+                Update Varient</button>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<div class="container">
+    <form action="/updateProduct/<%= product.id%>" method="post">
+        <div class="row">
+            <div class="col s6">
+                Product Description :
+            </div>
+            <div class="col s12">
+                <input type="text" name="productDescription" value="<%=product.data().productDescription%>">
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col s6">
+                <input type="submit" value="Update Desc." class="btn blue">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <form id="varientUpdateForm" style="display: none;" method="post">
+        <div class="row">
+            <div class="col s6">
+                Varient Name :
+            </div>
+            <div class="col s6">
+                <input type="text" name="varientName" id="varientName">
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col s6">
+                Quantity:
+            </div>
+            <div class="col s6">
+                <input type="number" name="quantity" id="quantity">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                Discount Price:
+            </div>
+            <div class="col s6">
+                <input type="number" name="discountPrice" id="discountPrice">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                Original Price:
+            </div>
+            <div class="col s6">
+                <input type="number" name="originalPrice" id="originalPrice">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6"><input type="submit" value="submit" class="btn blue"></div>
+            <div class="col s6"><div class="btn red" onclick="hideForm()">Cancel</div></div>            
+        </div>
+    </form>
+</div>
+<script>
+    function varientFormShow(e) {
+        const varientForm = document.getElementById('varientUpdateForm');
+        varientForm.style.display = "";
+        const varData = e.target.id.split('_');
+        document.getElementById('varientName').setAttribute('value',varData[1]);
+        document.getElementById('quantity').setAttribute('value',varData[2]);
+        document.getElementById('discountPrice').setAttribute('value',varData[3]);
+        document.getElementById('originalPrice').setAttribute('value',varData[4]);
+        // update varient requires two parameters : productid and varientName
+        varientForm.setAttribute('action','/updateVarient/'+varData[0])
+    }
+    function hideForm() {
+        document.getElementById('varientUpdateForm').style.display = 'none'
+    }
+</script>

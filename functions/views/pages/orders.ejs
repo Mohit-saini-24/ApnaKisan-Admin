@@ -14,14 +14,15 @@
     <a href="/products" class="btn blue">Update</a>
   </div>
   <div class="col s5 light-green lighten-4 orders" style="margin: 10px;">
-    <h6 class="center-align">Cancelled <br> Orders</h6>
+    <h6>View All Users</h6>
+    <a href="/users" class="btn-small blue">View Users </a>
   </div>
   <div class="col s5 light-green lighten-4 orders" style="margin: 10px;">
     <h6 class="center-align">Delivered <br> Orders</h6>
   </div>
 </div>
 
-<div class="row" id="orders_row" style="display: none;">
+<div class="row" id="orders_row">
   <div class="col s12">
     <div class="row">
       <div class="col s6">
@@ -35,7 +36,7 @@
 
   </div>
   <% orders.docs.forEach(order => { %>
-  <div style="display: none;"
+    <div style="display: none;"
     class="col s12 displayDate <%= order.data().orderTime.toDate().getFullYear()+'-'+order.data().orderTime.toDate().getMonth()+'-'+order.data().orderTime.toDate().getDate()%>">
     <div class="row">
       <div class="col s12">
@@ -62,23 +63,30 @@
 </div>
 
 <script>
+  
   function viewOrders() {
     document.getElementById('orders_row').style.display = "";
   }
   function showDateProducts(e) {
     // alert('invoked')
-    console.log(e.target.value);
+    // console.log(e.target.value);
     var date = e.target.value;
     date = date.split('-');
-    date[1] = date[1]-1;
-    console.log(date.join('-'))
+    date[1] = Number(date[1])-1;
+    // console.log(date.join('-'))
+    date[2] = Number(date[2])
+    // console.log(Number(date[2]))
     date = date.join('-');
-    var orders =document.getElementsByClassName('displayDate');
+    // console.log(date)
+    var orders = document.getElementsByClassName('displayDate');
     console.log(typeof orders)
     for (const iterator of orders) {
-      if(iterator.classList.contains(date)){
+      // console.log(iterator.classList)
+      if (iterator.classList.contains(date.toString())) {
+        console.log(iterator.classList)
+        console.log(date)
         iterator.style.display = ""
-      }else{
+      } else {
         iterator.style.display = "none"
       }
     }

@@ -1,0 +1,27 @@
+<% layout('../boilerplate') %>
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col s12">
+        <h4>All Users</h4>
+    </div>
+    
+    <div class="col s12">
+        <div class="row">
+            <% for (const key in allUsers.users) { %>
+            <% if (allUsers.users.hasOwnProperty(key)) { %>
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s6">
+                        <p><%= allUsers.users[key].phoneNumber %></p>
+                    </div>
+                    <div class="col s6">
+                        <p><%=allUsers.users[key].metadata.creationTime.split(" ")[1]+'-'+allUsers.users[key].metadata.creationTime.split(" ")[2]+'-'+allUsers.users[key].metadata.creationTime.split(" ")[3]%></p>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <% } %>
+        </div>
+    </div>
+</div>
