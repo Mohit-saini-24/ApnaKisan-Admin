@@ -1,18 +1,6 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents {    
-    match /products/{products} {
-      allow read: if true;
-      allow write: if true;
+  match /{document=**} {
+      allow read, write: if true;
     }
-    match /users/{user} {
-      allow read: if true;
-      allow write: if true;
-    }
-    match /apnakisanorders/{order} {
-    // Make sure a 'users' document exists for the requesting user before
-      // allowing any writes to the 'apnakisanorders' collection
-      allow read,write: if exists(/databases/$(database)/documents/users/$('admin'))
-    }
-  }
 }

@@ -1,5 +1,9 @@
 <% layout('../boilerplate') %>
 <% stylesheet('/css/style.css') -%>
+<% script('https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js') -%>
+<% script('https://www.gstatic.com/firebasejs/7.21.0/firebase-firestore.js') -%>
+<% script('https://www.gstatic.com/firebasejs/7.21.0/firebase-storage.js') -%>
+<% script('/js/addProduct.js') -%>
 <% include ../partials/header %>
 <h5><%= category %></h5>
 <a href="javascript:history.back()" class="btn cyan">Back</a>
@@ -42,12 +46,12 @@
     <% }) %>
 </div>
 <div class="row container">
-    <form enctype="multipart/form-data" action="/addNewProduct" id="addProductForm" method="post" style="display: none;">
+    <form enctype="multipart/form-data" onsubmit="addProductTodb(event)" id="addProductForm" style="display: none;">
         <div class="col s12">
             <div class="row">
                 <div class="col s6">Name : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="name" required>
+                    <input type="text" name="name" id="name" required>
                 </div>
             </div>
         </div>
@@ -55,7 +59,7 @@
             <div class="row">
                 <div class="col s6">Company : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="company" required>
+                    <input type="text" name="company" id="company" required>
                 </div>
             </div>
         </div>
@@ -63,7 +67,7 @@
             <div class="row">
                 <div class="col s6">Hindi Name : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="nameHindi" required>
+                    <input type="text" name="nameHindi" id="nameHindi" required>
                 </div>
             </div>
         </div>
@@ -72,7 +76,7 @@
             <div class="row">
                 <div class="col s6">Description : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="description">
+                    <input type="text" name="description" id="description">
                 </div>
             </div>
         </div>
@@ -80,7 +84,7 @@
             <div class="row">
                 <div class="col s6">Varient Name : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="varientName" required>
+                    <input type="text" name="varientName" id="varientName" required>
                 </div>
             </div>
         </div>
@@ -88,7 +92,7 @@
             <div class="row">
                 <div class="col s6">Varient Quantity : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="varientQty" required>
+                    <input type="number" name="varientQty" id="varientQty" required>
                 </div>
             </div>
         </div>
@@ -96,7 +100,7 @@
             <div class="row">
                 <div class="col s6">Discount Price : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="discountPrice" required>
+                    <input type="number" name="discountPrice" id="discountPrice" required>
                 </div>
             </div>
         </div>
@@ -104,7 +108,7 @@
             <div class="row">
                 <div class="col s6">Original Price : </div>
                 <div class="col s6 input-field">
-                    <input type="text" name="priceOriginal" required>
+                    <input type="number" name="priceOriginal" id="priceOriginal" required>
                 </div>
             </div>
         </div>
@@ -120,7 +124,7 @@
             <div class="row">
                 <div class="col s6"><div class="btn red" onclick="closeForm()">Cancel</div></div>
                 <div class="col s6 input-field">
-                    <input type="hidden" name="category" value="<%= category %>">
+                    <input type="hidden" name="category" id="category" value="<%= category %>">
                     <input type="submit" value="submit" class="btn green">
                 </div>
             </div>
@@ -128,13 +132,3 @@
         
     </form>
 </div>
-<script>
-    function openAddForm() {
-        document.getElementById('addProductForm').style.display = "";
-        document.getElementById('displayProducts').style.display = "none";
-    }
-    function closeForm(){
-        document.getElementById('addProductForm').style.display = "none";
-        document.getElementById('displayProducts').style.display = "";
-    }
-</script>

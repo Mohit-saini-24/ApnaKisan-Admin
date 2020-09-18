@@ -7,8 +7,7 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 // const fileUpload = require('express-fileupload')
-const multer = require('multer');
-var upload = multer({dest:'./assets/'});
+
 const serviceAccount = require('./service.json')
 const moment = require('moment')
 
@@ -214,10 +213,8 @@ app.get('/products', (req, res) => {
     res.render('pages/products')
 })
 
-app.post('/addNewProduct', upload.single('productImage'), (req, res) => {
+app.post('/addNewProduct', (req, res) => {
 
-    console.log(req.file)
-    // console.log(req)
     // console.log(req.body)
     // console.log(req.files)
     // if (!req.files) {            
@@ -239,31 +236,6 @@ app.post('/addNewProduct', upload.single('productImage'), (req, res) => {
     return res.send(send)
 
 
-
-    const varient = [{
-        varientName: req.body.varientName,
-        varientQty: req.body.varientQty,
-        discountPrice: req.body.discountPrice,
-        priceOriginal: req.body.priceOriginal,
-    }]
-    const docRef = db.collection('products').doc('All Products').collection('Products').add({
-        category: req.body.category,
-        company: req.body.company,
-        productName: req.body.name,
-        productNameHindi: req.body.nameHindi,
-        productDescription: req.body.description,
-        sold: 0,
-        productURL: url,
-        varients: varient
-    })
-    db.collection('products').doc('search').update({
-        search: fieldValue.arrayUnion({
-            company: req.body.company,
-            productName: req.body.name,
-            productURL: url,
-            productId: docRef.id
-        })
-    })
 
 })
 
@@ -299,14 +271,15 @@ app.post('/updateVarient/:productid', async (req, res) => {
             priceOriginal: req.body.originalPrice,
             discountPrice: req.body.discountPrice,
             varientName: req.body.varientName,
-            varientQty: req.body.quantity
+            varientQty: req.body.quantity,
+            varientSold: req.body.varientSold
         }
         var productref = db.collection('products').doc('All Products').collection('Products').doc(req.params.productid);
         const product = await productref.get();
 
         await productref.update({
             // varients: admin.firestore.FieldValue.arrayRemove(varient),
-            varients: product.data().varients.filter(name => name.varientName !== newVar.varientName)
+            varients: product.data().varients.filter(name => name.varientName !== newVar.varientName )
         });
         await productref.update({
             varients: admin.firestore.FieldValue.arrayUnion(newVar)
@@ -325,7 +298,8 @@ app.post('/updateProduct/:productid', async (req, res) => {
         const product = await productref.get();
         await productref.update({
             // varients: admin.firestore.FieldValue.arrayRemove(varient),
-            productDescription: req.body.productDescription
+            productDescription: req.body.productDescription,
+            sold:req.body.sold
         });
         res.redirect('back')
     } catch (error) {
@@ -333,6 +307,7 @@ app.post('/updateProduct/:productid', async (req, res) => {
         res.json({ "err": error.message })
     }
 })
+
 
 app.get('/users', async (req, res) => {
     try {
